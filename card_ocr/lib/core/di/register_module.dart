@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:card_ocr/domain/domain.dart';
 
@@ -17,4 +19,13 @@ abstract class UseCaseModule {
 
   @lazySingleton
   ParseCardFields parseCardFields() => ParseCardFields();
+}
+
+@module
+abstract class ExternalModule {
+  @lazySingleton
+  Dio get dio => Dio(BaseOptions(baseUrl: 'https://192.168.68.50:8000'));
+
+  @lazySingleton
+  FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
 }

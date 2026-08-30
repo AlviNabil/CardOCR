@@ -10,7 +10,13 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:card_ocr/core/di/register_module.dart' as _i1042;
+import 'package:card_ocr/data/data_sources/ocr_remote_data_sources.dart'
+    as _i584;
+import 'package:card_ocr/data/repositories/ocr_repository_impl.dart' as _i645;
+import 'package:card_ocr/data/services/crypto_services.dart' as _i37;
 import 'package:card_ocr/domain/domain.dart' as _i670;
+import 'package:dio/dio.dart' as _i361;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -22,8 +28,21 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final useCaseModule = _$UseCaseModule();
+    final externalModule = _$ExternalModule();
     gh.lazySingleton<_i670.ParseCardFields>(
       () => useCaseModule.parseCardFields(),
+    );
+    gh.lazySingleton<_i361.Dio>(() => externalModule.dio);
+    gh.lazySingleton<_i558.FlutterSecureStorage>(
+      () => externalModule.secureStorage,
+    );
+    gh.factory<_i584.OcrRemoteDataSource>(
+      () => _i584.OcrRemoteDataSource(dio: gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i670.OcrRepository>(
+      () => _i645.OcrRepositoryImpl(
+        remoteDataSource: gh<_i584.OcrRemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i670.SaveCard>(
       () => useCaseModule.saveCard(gh<_i670.CardRepository>()),
@@ -34,6 +53,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i670.DeleteCard>(
       () => useCaseModule.deleteCard(gh<_i670.CardRepository>()),
     );
+    gh.lazySingleton<_i37.CryptoServices>(
+      () =>
+          _i37.CryptoServices(secureStorage: gh<_i558.FlutterSecureStorage>()),
+    );
     gh.lazySingleton<_i670.ScanCard>(
       () => useCaseModule.scanCard(gh<_i670.OcrRepository>()),
     );
@@ -42,3 +65,5 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$UseCaseModule extends _i1042.UseCaseModule {}
+
+class _$ExternalModule extends _i1042.ExternalModule {}
