@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:card_ocr/core/injection.dart';
 import 'package:card_ocr/presentation/cubits/camera/camera_cubit.dart';
-import 'package:card_ocr/presentation/cubits/scan_cubit.dart';
+import 'package:card_ocr/presentation/cubits/scan/scan_cubit.dart';
 import 'package:card_ocr/presentation/screens/result_screen.dart';
 import 'package:card_ocr/presentation/widgets/scanner_overlay_painter.dart';
 import 'package:flutter/material.dart';
