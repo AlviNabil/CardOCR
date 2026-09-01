@@ -21,10 +21,12 @@ abstract class UseCaseModule {
   ParseCardFields parseCardFields() => ParseCardFields();
 }
 
+const _defaultBaseUrl = String.fromEnvironment('OCR_BASE_URL', defaultValue: 'https://localhost:8000');
+
 @module
 abstract class ExternalModule {
   @lazySingleton
-  Dio get dio => Dio(BaseOptions(baseUrl: 'https://192.168.68.50:8000'));
+  Dio get dio => Dio(BaseOptions(baseUrl: _defaultBaseUrl));
 
   @lazySingleton
   FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
