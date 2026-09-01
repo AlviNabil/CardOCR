@@ -42,7 +42,13 @@ class _ScanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Scan Card')),
+      appBar: AppBar(
+        title: const Text('Scan Card'),
+        actions: [
+          IconButton(icon: const Icon(Icons.credit_card), onPressed: () => Navigator.pushNamed(context, '/history')),
+        ],
+      ),
+
       body: BlocListener<ScanCubit, ScanState>(
         listener: (context, state) {
           if (state is ScanParsed) {

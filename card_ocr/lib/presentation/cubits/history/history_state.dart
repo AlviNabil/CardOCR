@@ -10,9 +10,9 @@ class HistoryLoading extends HistoryState {
 
 class HistoryLoaded extends HistoryState {
   final List<CardRecord> cards;
-  final int? reaveledId;
+  final int? revealedId;
 
-  const HistoryLoaded({required this.cards, this.reaveledId});
+  const HistoryLoaded({required this.cards, this.revealedId});
 }
 
 class HistoryError extends HistoryState {

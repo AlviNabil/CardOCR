@@ -1,4 +1,5 @@
 import 'package:card_ocr/core/injection.dart';
+import 'package:card_ocr/presentation/screens/history_screen.dart';
 import 'package:card_ocr/presentation/screens/scan_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class CardOcrApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigoAccent), useMaterial3: true),
       home: const ScanScreen(),
+      routes: {'/history': (_) => const HistoryScreen()},
     );
   }
 }

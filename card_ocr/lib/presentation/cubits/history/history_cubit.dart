@@ -35,6 +35,6 @@ class HistoryCubit extends Cubit<HistoryState> {
   void toggleReveal(int? id) {
     final current = state;
     if (current is! HistoryLoaded) return;
-    emit(HistoryLoaded(cards: current.cards, reaveledId: current.reaveledId == id ? null : id));
+    emit(HistoryLoaded(cards: current.cards, revealedId: current.revealedId == id ? null : id));
   }
 }
