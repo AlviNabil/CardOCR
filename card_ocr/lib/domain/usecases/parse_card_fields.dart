@@ -47,13 +47,16 @@ class ParseCardFields {
 
   CardExpiry? _findExpiry(List<String> lines) {
     final pattern = RegExp(r'(0[1-9]|1[0-2])\s*/\s*(\d{2})');
+    final candidates = <CardExpiry>[];
+
     for (final line in lines) {
-      final match = pattern.firstMatch(line);
-      if (match != null) {
-        return CardExpiry(month: int.parse(match.group(1)!), year: 2000 + int.parse(match.group(2)!));
+      for (final match in pattern.allMatches(line)) {
+        candidates.add(CardExpiry(month: int.parse(match.group(1)!), year: 2000 + int.parse(match.group(2)!)));
       }
     }
-    return null;
+    if (candidates.isEmpty) return null;
+    candidates.sort((a, b) => (a.year * 12 + a.month).compareTo(b.year * 12 + b.month));
+    return candidates.last;
   }
 
   String? _findCardholderName(List<String> lines) {

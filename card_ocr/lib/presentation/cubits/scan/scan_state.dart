@@ -13,7 +13,9 @@ class ScanCapturing extends ScanState {
 }
 
 class ScanUploading extends ScanState {
-  const ScanUploading();
+  final Uint8List imageBytes;
+
+  const ScanUploading({required this.imageBytes});
 }
 
 class ScanParsed extends ScanState {

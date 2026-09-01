@@ -1,5 +1,5 @@
 import 'package:card_ocr/domain/domain.dart';
-import 'package:card_ocr/presentation/cubits/scan_cubit.dart';
+import 'package:card_ocr/presentation/cubits/scan/scan_cubit.dart';
 import 'package:card_ocr/presentation/widgets/ocr_box_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

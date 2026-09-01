@@ -19,8 +19,12 @@ import 'package:card_ocr/data/repositories/ocr_repository_impl.dart' as _i645;
 import 'package:card_ocr/data/services/crypto_services.dart' as _i37;
 import 'package:card_ocr/domain/domain.dart' as _i670;
 import 'package:card_ocr/domain/repositories/card_repository.dart' as _i554;
+import 'package:card_ocr/domain/usecases/delete_card.dart' as _i89;
+import 'package:card_ocr/domain/usecases/get_save_cards.dart' as _i248;
 import 'package:card_ocr/presentation/cubits/camera/camera_cubit.dart' as _i55;
-import 'package:card_ocr/presentation/cubits/scan_cubit.dart' as _i289;
+import 'package:card_ocr/presentation/cubits/history/history_cubit.dart'
+    as _i73;
+import 'package:card_ocr/presentation/cubits/scan/scan_cubit.dart' as _i44;
 import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
@@ -78,8 +82,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i670.DeleteCard>(
       () => useCaseModule.deleteCard(gh<_i670.CardRepository>()),
     );
-    gh.factory<_i289.ScanCubit>(
-      () => _i289.ScanCubit(
+    gh.factory<_i73.HistoryCubit>(
+      () => _i73.HistoryCubit(
+        getSaveCards: gh<_i248.GetSaveCards>(),
+        deleteCard: gh<_i89.DeleteCard>(),
+      ),
+    );
+    gh.factory<_i44.ScanCubit>(
+      () => _i44.ScanCubit(
         scanCard: gh<_i670.ScanCard>(),
         parseCardFields: gh<_i670.ParseCardFields>(),
         saveCard: gh<_i670.SaveCard>(),

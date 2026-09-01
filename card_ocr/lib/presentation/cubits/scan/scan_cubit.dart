@@ -18,7 +18,7 @@ class ScanCubit extends Cubit<ScanState> {
   void startCapture() => emit(const ScanCapturing());
 
   Future<void> processImage(Uint8List imageBytes) async {
-    emit(const ScanUploading());
+    emit(ScanUploading(imageBytes: imageBytes));
     try {
       final ocrResult = await scanCard(imageBytes);
       final draft = parseCardFields(ocrResult);
