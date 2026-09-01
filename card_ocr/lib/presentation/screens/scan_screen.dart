@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:card_ocr/core/injection.dart';
 import 'package:card_ocr/presentation/cubits/camera/camera_cubit.dart';
 import 'package:card_ocr/presentation/cubits/scan_cubit.dart';
+import 'package:card_ocr/presentation/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,10 +45,7 @@ class _ScanView extends StatelessWidget {
           if (state is ScanParsed) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => BlocProvider.value(
-                  value: context.read<ScanCubit>(),
-                  // child: const ResultScreen()
-                ),
+                builder: (_) => BlocProvider.value(value: context.read<ScanCubit>(), child: const ResultScreen()),
               ),
             );
           } else if (state is ScanError) {

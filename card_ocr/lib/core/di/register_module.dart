@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:card_ocr/domain/domain.dart';
@@ -25,8 +29,17 @@ const _defaultBaseUrl = String.fromEnvironment('OCR_BASE_URL', defaultValue: 'ht
 
 @module
 abstract class ExternalModule {
+  @preResolve
   @lazySingleton
-  Dio get dio => Dio(BaseOptions(baseUrl: _defaultBaseUrl));
+  Future<Dio> dio() async {
+    final dio = Dio(BaseOptions(baseUrl: _defaultBaseUrl));
+    final certBytes = await rootBundle.load('assets/certs/rootCA.pem');
+    final securityContext = SecurityContext(withTrustedRoots: true)
+      ..setTrustedCertificatesBytes(certBytes.buffer.asUint8List());
+    dio.httpClientAdapter = IOHttpClientAdapter(createHttpClient: () => HttpClient(context: securityContext));
+
+    return dio;
+  }
 
   @lazySingleton
   FlutterSecureStorage get secureStorage => const FlutterSecureStorage();

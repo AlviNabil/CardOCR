@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'dart:typed_data';
 
 import 'package:injectable/injectable.dart';
@@ -18,7 +19,17 @@ class OcrRemoteDataSource {
       );
       return OcrResultModel.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
-      throw Exception('OCR request failed: ${e.response?.statusCode} ${e.response?.data}');
+      developer.log(
+        'OCR request failed [${e.type}] ${e.message}'
+        '${e.response != null ? ' — HTTP ${e.response!.statusCode}: ${e.response!.data}' : ''}'
+        '${e.error != null ? ' — cause: ${e.error}' : ''}',
+        level: 100,
+      );
+      throw Exception(
+        'OCR request failed [${e.type}] ${e.message}'
+        '${e.response != null ? ' — HTTP ${e.response!.statusCode}: ${e.response!.data}' : ''}'
+        '${e.error != null ? ' — cause: ${e.error}' : ''}',
+      );
     }
   }
 }
