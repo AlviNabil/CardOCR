@@ -1,16 +1,23 @@
+import 'package:card_ocr/core/injection.dart';
+import 'package:card_ocr/presentation/screens/scan_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
+  runApp(const CardOcrApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class CardOcrApp extends StatelessWidget {
+  const CardOcrApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('Hello World!'))),
+    return MaterialApp(
+      title: 'Card OCR',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigoAccent), useMaterial3: true),
+      home: const ScanScreen(),
     );
   }
 }

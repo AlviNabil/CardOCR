@@ -19,6 +19,8 @@ import 'package:card_ocr/data/repositories/ocr_repository_impl.dart' as _i645;
 import 'package:card_ocr/data/services/crypto_services.dart' as _i37;
 import 'package:card_ocr/domain/domain.dart' as _i670;
 import 'package:card_ocr/domain/repositories/card_repository.dart' as _i554;
+import 'package:card_ocr/presentation/cubits/camera/camera_cubit.dart' as _i55;
+import 'package:card_ocr/presentation/cubits/scan_cubit.dart' as _i289;
 import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
@@ -26,19 +28,23 @@ import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final useCaseModule = _$UseCaseModule();
     final externalModule = _$ExternalModule();
+    gh.factory<_i55.CameraCubit>(() => _i55.CameraCubit());
     gh.lazySingleton<_i670.ParseCardFields>(
       () => useCaseModule.parseCardFields(),
     );
-    gh.lazySingleton<_i361.Dio>(() => externalModule.dio);
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => externalModule.secureStorage,
+    );
+    await gh.lazySingletonAsync<_i361.Dio>(
+      () => externalModule.dio(),
+      preResolve: true,
     );
     gh.factory<_i584.OcrRemoteDataSource>(
       () => _i584.OcrRemoteDataSource(dio: gh<_i361.Dio>()),
@@ -71,6 +77,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i670.DeleteCard>(
       () => useCaseModule.deleteCard(gh<_i670.CardRepository>()),
+    );
+    gh.factory<_i289.ScanCubit>(
+      () => _i289.ScanCubit(
+        scanCard: gh<_i670.ScanCard>(),
+        parseCardFields: gh<_i670.ParseCardFields>(),
+        saveCard: gh<_i670.SaveCard>(),
+      ),
     );
     return this;
   }

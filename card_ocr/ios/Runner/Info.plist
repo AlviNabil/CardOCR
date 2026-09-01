@@ -26,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>cardOCR needs camera access to scan your cards.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>CardOcr sends card photos to the OCR sever running on your MAC.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
