@@ -17,10 +17,11 @@ class ScanUploading extends ScanState {
 }
 
 class ScanParsed extends ScanState {
+  final Uint8List imageBytes;
   final OcrResult ocrResult;
   final CardRecord draft;
 
-  const ScanParsed({required this.ocrResult, required this.draft});
+  const ScanParsed({required this.imageBytes, required this.ocrResult, required this.draft});
 }
 
 class ScanSaved extends ScanState {

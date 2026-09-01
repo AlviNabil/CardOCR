@@ -22,7 +22,7 @@ class ScanCubit extends Cubit<ScanState> {
     try {
       final ocrResult = await scanCard(imageBytes);
       final draft = parseCardFields(ocrResult);
-      emit(ScanParsed(ocrResult: ocrResult, draft: draft));
+      emit(ScanParsed(imageBytes: imageBytes, ocrResult: ocrResult, draft: draft));
     } catch (e) {
       emit(ScanError(e.toString()));
     }
