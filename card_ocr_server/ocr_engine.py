@@ -17,8 +17,6 @@ def run_ocr(imagebytes: bytes) -> dict:
         raise ValueError("Could not decode image from bytes")
 
     result = _ocr.predict(image)
-    ### check the full result what are the total values returned by the ocr engine
-    print(f"👉👉👉👉👉👉{result}")
 
     res = result[0]
     zippedResult = zip(res["rec_texts"], res["rec_scores"], res["rec_polys"])
@@ -33,4 +31,3 @@ def run_ocr(imagebytes: bytes) -> dict:
         )
     height, width, _ = image.shape
     return {"lines": lines, "image_height": height, "image_width": width}
-
