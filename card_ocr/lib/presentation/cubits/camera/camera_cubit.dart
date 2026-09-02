@@ -13,6 +13,10 @@ class CameraCubit extends Cubit<CameraState> {
   Future<void> initialize() async {
     try {
       final cameras = await availableCameras();
+      if (cameras.isEmpty) {
+        emit(const CameraFailure('No camera available on this device.'));
+        return;
+      }
       final backCamera = cameras.firstWhere(
         (c) => c.lensDirection == CameraLensDirection.back,
         orElse: () => cameras.first,
