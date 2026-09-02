@@ -1,4 +1,5 @@
 import '../entities/card_record.dart';
+import '../entities/ocr_line.dart';
 import '../entities/ocr_result.dart';
 import '../rules/card_rules.dart';
 
@@ -8,7 +9,7 @@ class ParseCardFields {
 
     final pan = _findPan(lines);
     final expiry = _findExpiry(lines);
-    final name = _findCardholderName(lines);
+    final name = _findCardholderName(ocrResult.lines);
 
     return CardRecord(
       label: 'New Card',
@@ -47,13 +48,19 @@ class ParseCardFields {
     return candidates.last;
   }
 
-  String? _findCardholderName(List<String> lines) {
+  String? _findCardholderName(List<OcrLine> lines) {
     final namePattern = RegExp(r'^[A-Z][A-Z\s.]+[A-Z]$');
     String? best;
+    var bestBottom = double.negativeInfinity;
+
     for (final line in lines) {
-      final trimmed = line.trim();
-      if (namePattern.hasMatch(trimmed) && trimmed.contains(' ')) {
-        if (best == null || trimmed.length > best.length) best = trimmed;
+      final trimmed = line.text.trim();
+      if (!namePattern.hasMatch(trimmed) || !trimmed.contains(' ')) continue;
+
+      final bottom = line.points.map((p) => p.y).reduce((a, b) => a > b ? a : b);
+      if (bottom > bestBottom) {
+        bestBottom = bottom;
+        best = trimmed;
       }
     }
     return best;

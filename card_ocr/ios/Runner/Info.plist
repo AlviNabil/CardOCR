@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>cardOCR needs camera access to scan your cards.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>cardOCR can import a card photo from your library instead of using the camera.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>CardOcr sends card photos to the OCR sever running on your MAC.</string>
 	<key>UIApplicationSceneManifest</key>
